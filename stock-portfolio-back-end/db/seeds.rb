@@ -8,4 +8,4 @@
 
 User.create(name: "Sam", password: "123", email: "test@gmail.com", balance: 5000.00)
 
-Transaction.create(ticker: "FB", brought_price: 150.50, shares: 10, user_id: 1)
+Transaction.create(ticker: "FB", bought_price: 150.50, shares: 10, user_id: 1)
