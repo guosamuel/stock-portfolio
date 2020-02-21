@@ -8,13 +8,16 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import combineReducer from './reducers/index'
 // import 'semantic-ui-css/semantic.min.css'
+import { BrowserRouter } from 'react-router-dom'
 
 let store = createStore(combineReducer)
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

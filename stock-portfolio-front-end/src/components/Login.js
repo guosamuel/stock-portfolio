@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { login } from '../actions/userActions'
 // import SignUpForm from '../components/SignUpForm'
 
-function Login({ login }) {
+function Login({ login, history }) {
   const [ email, setEmail ] = useState("")
   const [ password, setPassword ] = useState("")
   const [ invalid, setInvalid ] = useState(false)
@@ -51,9 +51,7 @@ function Login({ login }) {
         const { user, token } = data;
         localStorage.setItem('token', token);
         login(user)
-        setEmail("")
-        setPassword("")
-        setInvalid(false)
+        history.push("/portfolio")
       }
     })
   }
