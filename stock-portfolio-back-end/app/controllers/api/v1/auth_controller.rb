@@ -7,7 +7,7 @@ class AuthController < ApplicationController
       token = encode_token(user_id)
       render json: {user: UserSerializer.new(@user), token: token}
     else
-      render json: {error: "Invalid email or password"}
+      render json: {error: true}
     end
   end
 
