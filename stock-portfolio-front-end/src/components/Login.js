@@ -8,13 +8,6 @@ function Login({ login, history }) {
   const [ password, setPassword ] = useState("")
   const [ invalid, setInvalid ] = useState(false)
 
-  // state = {
-  //   username: "",
-  //   password: "",
-  //   invalid: false,
-  //   signUpShown: false
-  // }
-
   const handleChange = e => {
     switch (e.target.name) {
       case "email":
@@ -56,9 +49,9 @@ function Login({ login, history }) {
     })
   }
 
-  // handleSignUpForm = () => {
-  //   this.setState({signUpShown: !this.state.signUpShown})
-  // }
+  const handleSignUpRedirect = () => {
+    history.push("/signup")
+  }
 
   return(
     <div>
@@ -81,26 +74,19 @@ function Login({ login, history }) {
             <br />
             <button className="ui button" type="Login">Log In</button>
           </form>
+          <div className="row">
+            <button className="ui button" onClick={handleSignUpRedirect}>Sign Up</button>
+          </div>
       </div>
     </div>
   )
 
 }
-// <div className="row">
-// <button className="ui button" onClick={this.handleSignUpForm}>Sign Up</button>
-// </div>
 
 const mapDispatchToProps = dispatch => {
   return {
     login: user => dispatch(login(user))
   }
 }
-
-// *THIS WAS USED TO CHECK THE CURRENT STATE IF IT WAS PROPERLY LOGGED IN
-// const mapStateToProps = state => {
-//   return {
-//     state: state
-//   }
-// }
 
 export default connect(null, mapDispatchToProps)(Login)

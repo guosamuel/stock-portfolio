@@ -1,21 +1,11 @@
 import React, { useState} from 'react'
 
-function SignUp(){
+function SignUp({ history }){
   const [ name, setName ] = useState("")
   const [ email, setEmail ] = useState("")
   const [ password, setPassword ] = useState("")
   const [ successfulSignUp, setSuccessfulSignUp ] = useState(false)
   const [ failedSignUp, setFailedSignUp ] = useState(false)
-
-  // state = {
-  //   username: "",
-  //   password: "",
-  //   firstName: "",
-  //   lastName: "",
-  //   successfulSignUp: false,
-  //   failedSignUp: false,
-  //   newUser: null
-  // }
 
   const handleChange = e => {
     switch (e.target.name) {
@@ -62,6 +52,10 @@ function SignUp(){
     })
   }
 
+  const handleLoginRedirect = () => {
+    history.push("/login")
+  }
+
   return(
     <div className="ui one column centered grid">
       { successfulSignUp ?
@@ -100,14 +94,14 @@ function SignUp(){
             <label>Password</label>
             <input type="password" name="password" placeholder="Password" onChange={handleChange} value={password}/>
           </div>
-          <button className="ui button" type="Login">Submit New User Form</button>
+          <button className="ui button" type="Login">Submit Sign Up Form</button>
         </form>
+        <div className="row">
+          <button className="ui button" onClick={handleLoginRedirect}>Back To Log In Page</button>
+        </div>
     </div>
   )
 
 }
-// <div className="row">
-// <button className="ui button" onClick={redirectToLoginPage}>Back To Log In Page</button>
-// </div>
 
 export default SignUp
