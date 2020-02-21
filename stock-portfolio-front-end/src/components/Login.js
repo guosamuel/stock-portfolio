@@ -15,21 +15,24 @@ function Login({ login }) {
   //   signUpShown: false
   // }
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     switch (e.target.name) {
       case "email":
         setEmail(e.target.value)
+        break
       case "password":
         setPassword(e.target.value)
+        break
       default:
         setEmail(email)
         setPassword(password)
+        break
     }
   }
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('localhost:3001/api/v1/auth', {
+    fetch('http://localhost:3001/api/v1/auth', {
       method: 'POST',
       headers:{
         "Content-Type": 'application/json',
