@@ -12,6 +12,7 @@ function App({ currentUser }) {
     <Switch>
       <Route exact path="/" component={Login} />
       <Route path="/login" component={Login} />
+      <Route path="/signup" component={SignUp} />
       { currentUser ?
         <Route path="/portfolio" component={Portfolio}/> :
         <Redirect
@@ -22,7 +23,6 @@ function App({ currentUser }) {
         <Redirect
           to="/login"
         />}
-      <Route path="/signup" component={SignUp} />
     </Switch>
   );
 }
