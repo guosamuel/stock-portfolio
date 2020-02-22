@@ -48,7 +48,7 @@ function Header({ logout }) {
             paddingRight: `1rem`
           }}
           >
-          Portfolio
+            Portfolio
           </Link>
         </h1>
       </div>
