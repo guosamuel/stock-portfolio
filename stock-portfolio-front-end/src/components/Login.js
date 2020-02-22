@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../actions/userActions'
-// import SignUpForm from '../components/SignUpForm'
 
 function Login({ login, history }) {
   const [ email, setEmail ] = useState("")

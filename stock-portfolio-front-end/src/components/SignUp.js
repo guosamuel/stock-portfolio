@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 
 function SignUp({ history }){
   const [ name, setName ] = useState("")
