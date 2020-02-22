@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Login from './components/Login'
 import Portfolio from './components/Portfolio'
 import Transactions from './components/Transactions'
 import SignUp from './components/SignUp'
 
 import { connect } from 'react-redux'
+import { login } from './actions/userActions'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
-function App({ currentUser }) {
+function App({ currentUser, login }) {
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+
+    if (token) {
+      fetch("http://localhost:3001/api/v1/current_user", {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
+        else {
+          login(data.user)
+        }
+      })
+    }
+  }, [])
+
   return (
     <Switch>
       <Route exact path="/" component={Login} />
@@ -33,4 +56,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    login: user => dispatch(login(user))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
