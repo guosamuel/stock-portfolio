@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function Header() {
+import { connect } from 'react-redux'
+import { logout } from '../actions/userActions'
+
+function Header({ logout }) {
+
   return (
     <header
       style={{
@@ -10,9 +14,18 @@ function Header() {
     >
       <div>
         <h1>
+          <label
+          onClick={() => logout()}
+          style={{
+            float: `right`,
+            paddingRight: `1rem`
+          }}>
+            Logout
+          </label>
           <Link
             to="/portfolio"
             style={{
+              color: `black`,
               float: `right`,
               paddingRight: `1rem`
             }}
@@ -22,6 +35,7 @@ function Header() {
           <Link
             to="/transactions"
             style={{
+              color: `black`,
               float: `right`,
               paddingRight: `1rem`
             }}
@@ -34,4 +48,9 @@ function Header() {
   )
 }
 
-export default Header
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  }
+}
+export default connect(null, mapDispatchToProps)(Header)
