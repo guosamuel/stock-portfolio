@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { logout } from '../actions/userActions'
 
 function Header({ logout }) {
+  const [ hover, setHover ] = useState(false)
+
+  const toggleHover = () => {
+    setHover(!hover)
+  }
 
   return (
     <header
@@ -16,22 +21,15 @@ function Header({ logout }) {
         <h1>
           <label
           onClick={() => logout()}
+          onMouseEnter={toggleHover}
+          onMouseLeave={toggleHover}
           style={{
             float: `right`,
-            paddingRight: `1rem`
+            paddingRight: `1rem`,
+            cursor: hover ? `pointer` : null
           }}>
             Logout
           </label>
-          <Link
-            to="/portfolio"
-            style={{
-              color: `black`,
-              float: `right`,
-              paddingRight: `1rem`
-            }}
-          >
-            Portfolio
-          </Link>
           <Link
             to="/transactions"
             style={{
@@ -41,6 +39,16 @@ function Header({ logout }) {
             }}
           >
             Transactions
+          </Link>
+          <Link
+          to="/portfolio"
+          style={{
+            color: `black`,
+            float: `right`,
+            paddingRight: `1rem`
+          }}
+          >
+          Portfolio
           </Link>
         </h1>
       </div>
