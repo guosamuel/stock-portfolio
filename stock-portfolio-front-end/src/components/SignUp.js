@@ -57,7 +57,7 @@ function SignUp({ history }){
   }
 
   return(
-    <div className="ui one column centered grid">
+    <div className="ui one column centered grid" style={{ paddingTop: "10%"}}>
       { successfulSignUp ?
         <div className="row">
             <div className="ui success message">

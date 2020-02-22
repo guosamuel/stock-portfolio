@@ -55,27 +55,30 @@ function Login({ login, history }) {
 
   return(
     <div>
-      <div className="ui one column centered grid">
+      <div className="ui one column centered grid" style={{paddingTop: "10%"}}>
           { invalid ?
           <div className="row">
               <div className="ui red message">
                 Invalid Username or Password
               </div>
           </div> : null}
-          <form className="ui form" onSubmit={handleSubmit}>
-            <div className="field">
-              <label>Email</label>
-              <input type="text" name="email" placeholder="Email" onChange={handleChange} value={email}/>
-            </div>
-            <div className="field">
-              <label>Password</label>
-              <input type="password" name="password" placeholder="Password" onChange={handleChange} value={password}/>
-            </div>
+          <div>
+            <form className="ui form" onSubmit={handleSubmit}>
+              <div className="field">
+                <label>Email</label>
+                <input type="text" name="email" placeholder="Email" onChange={handleChange} value={email}/>
+              </div>
+              <div className="field">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Password" onChange={handleChange} value={password}/>
+              </div>
+              <br />
+              <button className="ui button" type="Login">Log In</button>
+            </form>
             <br />
-            <button className="ui button" type="Login">Log In</button>
-          </form>
-          <div className="row">
-            <button className="ui button" onClick={handleSignUpRedirect}>Sign Up</button>
+            <div className="row">
+              <button className="ui button" onClick={handleSignUpRedirect}>Sign Up</button>
+            </div>
           </div>
       </div>
     </div>

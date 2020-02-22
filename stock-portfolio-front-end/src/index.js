@@ -7,7 +7,6 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import combineReducer from './reducers/index'
-// import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter } from 'react-router-dom'
 
 let store = createStore(combineReducer)
