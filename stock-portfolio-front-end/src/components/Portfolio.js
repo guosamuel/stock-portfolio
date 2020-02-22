@@ -1,8 +1,11 @@
 import React from 'react'
+import Layout from '../layout/Layout'
 
 function Portfolio() {
   return (
-    <div>Hello World!</div>
+    <Layout>
+      <h1>Hello World!</h1>
+    </Layout>
   )
 }
 

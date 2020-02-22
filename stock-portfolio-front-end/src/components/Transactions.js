@@ -1,8 +1,11 @@
 import React from 'react'
+import Layout from '../layout/Layout'
 
 function Transactions() {
   return (
-    <div>Render all the transactions!</div>
+    <Layout>
+      <h1>Render all the transactions!</h1>
+    </Layout>
   )
 }
 
