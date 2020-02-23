@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 import { login } from './actions/userActions'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
-function App({ currentUser, login }) {
+function App({ currentUser, login, history }) {
+  console.log(history)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -21,11 +22,13 @@ function App({ currentUser, login }) {
       })
       .then(resp => resp.json())
       .then(data => {
-        if (data.error) {
-          alert(data.error)
+        const { user, error } = data
+        if (error) {
+          alert(error)
         }
         else {
-          login(data.user)
+          login(user)
+          history.push("/portfolio")
         }
       })
     }
@@ -33,7 +36,6 @@ function App({ currentUser, login }) {
 
   return (
     <Switch>
-      <Route exact path="/" component={Login} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
       { currentUser ?

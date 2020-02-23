@@ -7,14 +7,14 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import combineReducer from './reducers/index'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 let store = createStore(combineReducer)
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <Route path="/" component={App} />
     </Provider>
   </BrowserRouter>,
   document.getElementById('root')

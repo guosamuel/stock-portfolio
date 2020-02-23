@@ -11,6 +11,11 @@ function Header({ logout }) {
     setHover(!hover)
   }
 
+  const loggingOut = () => {
+    logout()
+    localStorage.removeItem("token")
+  }
+
   return (
     <header
       style={{
@@ -20,7 +25,7 @@ function Header({ logout }) {
       <div>
         <h1>
           <label
-          onClick={() => logout()}
+          onClick={loggingOut}
           onMouseEnter={toggleHover}
           onMouseLeave={toggleHover}
           style={{
