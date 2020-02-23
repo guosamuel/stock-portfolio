@@ -30,7 +30,9 @@ function Header({ logout }) {
           onMouseLeave={toggleHover}
           style={{
             float: `right`,
-            paddingRight: `1rem`,
+            paddingLeft: `0.5rem`,
+            paddingRight: `0.5rem`,
+            marginTop: `1rem`,
             cursor: hover ? `pointer` : null
           }}>
             Logout
@@ -40,7 +42,10 @@ function Header({ logout }) {
             style={{
               color: `black`,
               float: `right`,
-              paddingRight: `1rem`
+              paddingLeft: `0.5rem`,
+              paddingRight: `0.5rem`,
+              marginTop: `1rem`,
+              borderRight: `2px solid black`
             }}
           >
             Transactions
@@ -50,7 +55,10 @@ function Header({ logout }) {
           style={{
             color: `black`,
             float: `right`,
-            paddingRight: `1rem`
+            paddingLeft: `0.5rem`,
+            paddingRight: `0.5rem`,
+            marginTop: `1rem`,
+            borderRight: `2px solid black`
           }}
           >
             Portfolio

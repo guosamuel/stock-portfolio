@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Login from './components/Login'
 import Portfolio from './components/Portfolio'
 import Transactions from './components/Transactions'
@@ -8,8 +8,11 @@ import { connect } from 'react-redux'
 import { login } from './actions/userActions'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
+import { CircleLoader } from "react-spinners"
+import { css } from "@emotion/core";
+
 function App({ currentUser, login, history }) {
-  console.log(history)
+  const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -32,23 +35,35 @@ function App({ currentUser, login, history }) {
         }
       })
     }
+
+    setLoading(false)
   }, [])
 
+  const override = css`
+  display: block;
+  margin: 25% auto;
+  `;
+
   return (
-    <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={SignUp} />
-      { currentUser ?
-        <Route path="/portfolio" component={Portfolio}/> :
-        <Redirect
-          to="/login"
-        />}
-      { currentUser ?
-        <Route path="/transactions" component={Transactions}/> :
-        <Redirect
-          to="/login"
-        />}
-    </Switch>
+    <div>
+      { loading ?
+        <CircleLoader css={override} loading={loading} size={150}/> :
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
+          { currentUser ?
+            <Route path="/portfolio" component={Portfolio}/> :
+            <Redirect
+              to="/login"
+            />}
+          { currentUser ?
+            <Route path="/transactions" component={Transactions}/> :
+            <Redirect
+              to="/login"
+            />}
+        </Switch>
+      }
+    </div>
   );
 }
 
