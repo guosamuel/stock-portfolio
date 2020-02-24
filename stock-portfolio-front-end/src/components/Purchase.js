@@ -4,6 +4,7 @@ function Purchase() {
   const [ invalid, setInvalid ] = useState(false)
   const [ inputTicker, setInputTicker ] = useState("")
   const [ inputShares, setInputShares ] = useState(1)
+  const [ areSharesFormatted, setAreSharesFormatted ] = useState(true)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -16,7 +17,13 @@ function Purchase() {
         setInputTicker(e.target.value)
         break
       case "input-shares":
-        setInputShares(e.target.value)
+        let shares = parseInt(e.target.value, 10)
+        setInputShares(shares)
+        if (!shares) {
+          setAreSharesFormatted(false)
+        } else {
+          setAreSharesFormatted(true)
+        }
         break
       default:
         setInputTicker(inputTicker)
@@ -41,10 +48,11 @@ function Purchase() {
           </div>
           <div className="field">
             <label>Shares</label>
-            <input type="number" name="input-shares" onChange={handleChange} value={inputShares}/>
+            <input type="number" min="1" step="1" name="input-shares" onChange={handleChange} value={inputShares}/>
           </div>
           <br />
-          <button className="ui button" type="Submit">Buy Shares</button>
+          <button className="ui button" type="Submit" disabled={areSharesFormatted ? false : true}>Buy Shares</button>
+          <br />
         </form>
       </div>
     </div>
