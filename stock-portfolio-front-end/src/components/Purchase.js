@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
 
-function Purchase() {
+import { connect } from 'react-redux'
+
+function Purchase({ currentUser }) {
   const [ invalid, setInvalid ] = useState(false)
   const [ inputTicker, setInputTicker ] = useState("")
   const [ inputShares, setInputShares ] = useState(1)
   const [ areSharesFormatted, setAreSharesFormatted ] = useState(true)
 
+  const TOKEN = `Tpk_b0d2d52327d14c40b708b93e14b27f40`
+
   const handleSubmit = e => {
     e.preventDefault()
-    console.log("derp")
+    fetch(`https://sandbox.iexapis.com/stable/stock/${inputTicker}/batch?types=chart&range=1d&token=${TOKEN}`)
+      .then(resp => {
+        resp.status === 404 ? setInvalid(true) : setInvalid(false)
+      })
   }
 
   const handleChange = e => {
@@ -19,11 +26,7 @@ function Purchase() {
       case "input-shares":
         let shares = parseInt(e.target.value, 10)
         setInputShares(shares)
-        if (!shares) {
-          setAreSharesFormatted(false)
-        } else {
-          setAreSharesFormatted(true)
-        }
+        !shares ? setAreSharesFormatted(false) : setAreSharesFormatted(true)
         break
       default:
         setInputTicker(inputTicker)
@@ -34,6 +37,9 @@ function Purchase() {
 
   return (
     <div className="ui one column centered grid" style={{paddingTop: "10%"}}>
+      <div className="row">
+        <h2>Cash - ${parseFloat(currentUser.balance).toFixed(2)}</h2>
+      </div>
       { invalid ?
       <div className="row">
           <div className="ui red message">
@@ -59,4 +65,10 @@ function Purchase() {
   )
 }
 
-export default Purchase
+const mapStateToProps = state => {
+  return {
+    currentUser: state.usersReducer.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Purchase)
