@@ -3,7 +3,7 @@ import Header from './Header'
 
 function Layout({ children }) {
   return (
-    <div>
+    <div style={{ margin: '0 auto', maxWidth: '960px' }}>
       <Header />
       <div>
         { children }
