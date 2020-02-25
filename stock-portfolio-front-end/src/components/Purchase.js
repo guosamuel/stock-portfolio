@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 
 import { connect } from 'react-redux'
+import { updateBalance } from '../actions/userActions'
 
-function Purchase({ currentUser }) {
+function Purchase({ currentUser, updateBalance }) {
   const [ invalidTicker, setInvalidTicker ] = useState(false)
   const [ insufficientFunds, setInsufficientFunds] = useState(false)
   const [ successfulPurchase, setSuccessfulPurchase ] = useState(false)
@@ -45,10 +46,12 @@ function Purchase({ currentUser }) {
         let currentPrice = resp.chart[resp.chart.length-1].average
         let cost = currentPrice * inputShares
         if (balance >= cost) {
+          let updatedBalance = balance - cost
           setInvalidTicker(false)
           setInsufficientFunds(false)
           setServerError(false)
-          setBalance(balance - cost)
+          setBalance(updatedBalance)
+          updateBalance(updatedBalance)
           handleTransaction(cost, currentPrice)
         } else {
           setInsufficientFunds(true)
@@ -129,4 +132,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Purchase)
+const mapDispatchToProps = dispatch => {
+  return {
+    updateBalance: updatedBalance => dispatch(updateBalance(updatedBalance))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Purchase)

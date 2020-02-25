@@ -10,6 +10,14 @@ export default (state = {currentUser: null}, action) => {
         ...state,
         currentUser: null
       }
+    case "UPDATE_BALANCE":
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          balance: action.payload
+        }
+      }
     default:
       return state
   }

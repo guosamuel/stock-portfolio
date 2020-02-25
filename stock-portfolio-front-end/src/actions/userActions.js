@@ -10,3 +10,10 @@ export const logout = () => {
     type: "LOGOUT"
   }
 }
+
+export const updateBalance = updatedBalance => {
+  return {
+    type: "UPDATE_BALANCE",
+    payload: updatedBalance
+  }
+}
