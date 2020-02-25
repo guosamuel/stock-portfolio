@@ -6,6 +6,7 @@ function Purchase({ currentUser }) {
   const [ invalidTicker, setInvalidTicker ] = useState(false)
   const [ insufficientFunds, setInsufficientFunds] = useState(false)
   const [ successfulPurchase, setSuccessfulPurchase ] = useState(false)
+  const [ serverError, setServerError ] = useState(false)
   const [ inputTicker, setInputTicker ] = useState("")
   const [ inputShares, setInputShares ] = useState(1)
   const [ areSharesFormatted, setAreSharesFormatted ] = useState(true)
@@ -23,16 +24,32 @@ function Purchase({ currentUser }) {
       .then(resp => {
         let currentPrice = resp.chart[resp.chart.length-1].average
         let cost = currentPrice * inputShares
-        console.log("balance", typeof balance)
-        console.log("cost", typeof cost)
         if (balance >= cost) {
           setInvalidTicker(false)
           setInsufficientFunds(false)
-          setSuccessfulPurchase(true)
+          setServerError(false)
           setBalance(balance - cost)
+          fetch(`http://localhost:3001/api/v1/transactions`, {
+            method: 'POST',
+            headers: {
+              "Content-Type": 'application/json',
+              Accept: 'application/json'
+            },
+            body: JSON.stringify({
+              email: currentUser.email,
+              bought_price: currentPrice,
+              ticker: inputTicker,
+              shares: inputShares,
+              cost
+            })
+          })
+          .then(resp => resp.json())
+          .then(resp => resp.error ? setServerError(true) : setSuccessfulPurchase(true))
+          .catch(error => alert(`The following error occurred: ${error}`))
         } else {
           setInsufficientFunds(true)
           setSuccessfulPurchase(false)
+          setServerError(false)
         }
       })
   }
@@ -75,6 +92,12 @@ function Purchase({ currentUser }) {
       <div className="row">
           <div className="ui green message">
             Purchase Successful
+          </div>
+      </div> : null}
+      { serverError ?
+      <div className="row">
+          <div className="ui yellow message">
+            An error occurred on the server side. Please try again.
           </div>
       </div> : null}
       <div>
