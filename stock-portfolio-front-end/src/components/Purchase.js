@@ -3,10 +3,13 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 function Purchase({ currentUser }) {
-  const [ invalid, setInvalid ] = useState(false)
+  const [ invalidTicker, setInvalidTicker ] = useState(false)
+  const [ insufficientFunds, setInsufficientFunds] = useState(false)
+  const [ successfulPurchase, setSuccessfulPurchase ] = useState(false)
   const [ inputTicker, setInputTicker ] = useState("")
   const [ inputShares, setInputShares ] = useState(1)
   const [ areSharesFormatted, setAreSharesFormatted ] = useState(true)
+  const [ balance, setBalance ] = useState(parseFloat(currentUser.balance))
 
   const TOKEN = `Tpk_b0d2d52327d14c40b708b93e14b27f40`
 
@@ -14,7 +17,23 @@ function Purchase({ currentUser }) {
     e.preventDefault()
     fetch(`https://sandbox.iexapis.com/stable/stock/${inputTicker}/batch?types=chart&range=1d&token=${TOKEN}`)
       .then(resp => {
-        resp.status === 404 ? setInvalid(true) : setInvalid(false)
+        resp.status === 404 ? setInvalidTicker(true) : setInvalidTicker(false)
+        return resp.json()
+      })
+      .then(resp => {
+        let currentPrice = resp.chart[resp.chart.length-1].average
+        let cost = currentPrice * inputShares
+        console.log("balance", typeof balance)
+        console.log("cost", typeof cost)
+        if (balance >= cost) {
+          setInvalidTicker(false)
+          setInsufficientFunds(false)
+          setSuccessfulPurchase(true)
+          setBalance(balance - cost)
+        } else {
+          setInsufficientFunds(true)
+          setSuccessfulPurchase(false)
+        }
       })
   }
 
@@ -38,12 +57,24 @@ function Purchase({ currentUser }) {
   return (
     <div className="ui one column centered grid" style={{paddingTop: "10%"}}>
       <div className="row">
-        <h2>Cash - ${parseFloat(currentUser.balance).toFixed(2)}</h2>
+        <h2>Cash - ${balance.toFixed(2)}</h2>
       </div>
-      { invalid ?
+      { invalidTicker ?
       <div className="row">
           <div className="ui red message">
             Invalid ticker. Please try again.
+          </div>
+      </div> : null}
+      { insufficientFunds ?
+      <div className="row">
+          <div className="ui red message">
+            Insufficient funds. Please lower the amount of shares for this ticker.
+          </div>
+      </div> : null}
+      { successfulPurchase ?
+      <div className="row">
+          <div className="ui green message">
+            Purchase Successful
           </div>
       </div> : null}
       <div>
