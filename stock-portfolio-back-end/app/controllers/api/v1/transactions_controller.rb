@@ -8,11 +8,18 @@ class Api::V1::TransactionsController < ApplicationController
 
     new_balance = user.balance - params[:cost]
     User.update(user.id, email: user.email, password_digest: user.password_digest, balance: new_balance)
-    
+
     if new_transaction.save
       render json: {error: false}
     else
       render json: {error: true}
     end
+  end
+
+  def index
+    # request.headers[:email]
+    user = User.find_by(email: request.headers[:email])
+    transactions = user.transactions
+    render json: {transactions: transactions}
   end
 end

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { connect } from 'react-redux'
 import { updateBalance } from '../actions/userActions'
+import { addTransaction } from '../actions/transactionActions'
 
 function Purchase({ currentUser, updateBalance }) {
   const [ invalidTicker, setInvalidTicker ] = useState(false)
@@ -31,7 +32,18 @@ function Purchase({ currentUser, updateBalance }) {
       })
     })
     .then(resp => resp.json())
-    .then(resp => resp.error ? setServerError(true) : setSuccessfulPurchase(true))
+    .then(resp => {
+      if (resp.error) {
+        setServerError(true)
+      } else {
+        setSuccessfulPurchase(true)
+        addTransaction({
+          ticker: inputTicker,
+          shares: inputShares,
+          bought_price: currentPrice
+        })
+      }
+    })
     .catch(error => alert(`The following error occurred: ${error}`))
   }
 
@@ -134,7 +146,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateBalance: updatedBalance => dispatch(updateBalance(updatedBalance))
+    updateBalance: updatedBalance => dispatch(updateBalance(updatedBalance)),
+    addTransaction: transaction => dispatch(addTransaction(transaction))
   }
 }
 
