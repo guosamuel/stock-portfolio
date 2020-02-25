@@ -14,6 +14,26 @@ function Purchase({ currentUser }) {
 
   const TOKEN = `Tpk_b0d2d52327d14c40b708b93e14b27f40`
 
+  const handleTransaction = (cost, currentPrice) => {
+    fetch(`http://localhost:3001/api/v1/transactions`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        email: currentUser.email,
+        bought_price: currentPrice,
+        ticker: inputTicker,
+        shares: inputShares,
+        cost
+      })
+    })
+    .then(resp => resp.json())
+    .then(resp => resp.error ? setServerError(true) : setSuccessfulPurchase(true))
+    .catch(error => alert(`The following error occurred: ${error}`))
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
     fetch(`https://sandbox.iexapis.com/stable/stock/${inputTicker}/batch?types=chart&range=1d&token=${TOKEN}`)
@@ -29,23 +49,7 @@ function Purchase({ currentUser }) {
           setInsufficientFunds(false)
           setServerError(false)
           setBalance(balance - cost)
-          fetch(`http://localhost:3001/api/v1/transactions`, {
-            method: 'POST',
-            headers: {
-              "Content-Type": 'application/json',
-              Accept: 'application/json'
-            },
-            body: JSON.stringify({
-              email: currentUser.email,
-              bought_price: currentPrice,
-              ticker: inputTicker,
-              shares: inputShares,
-              cost
-            })
-          })
-          .then(resp => resp.json())
-          .then(resp => resp.error ? setServerError(true) : setSuccessfulPurchase(true))
-          .catch(error => alert(`The following error occurred: ${error}`))
+          handleTransaction(cost, currentPrice)
         } else {
           setInsufficientFunds(true)
           setSuccessfulPurchase(false)
