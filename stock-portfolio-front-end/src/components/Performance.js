@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { connect } from 'react-redux'
 
@@ -8,10 +8,11 @@ function Performance({ allTransactions, getPortfolioTotal }) {
   const [ allOpeningPrices, setAllOpeningPrices ] = useState(null)
   const openingPrices = {}
   const uniqueTransactions = []
-  console.log("IN THE PERFORMANCE COMPONENT", allTransactions)
+
   //***
+
   /***
-  This section was used to find the unique tickers. The list of transactions
+  This section below was used to find the unique tickers. The list of transactions
   are already sorted by purchase date, from earliest to latest.
   ***/
 
@@ -45,6 +46,22 @@ function Performance({ allTransactions, getPortfolioTotal }) {
       })
       .catch(error => alert(`The following error occured: ${error}`))
   }
+
+  useEffect( () => {
+    if (allOpeningPrices) {
+      let ticker = uniqueTransactions[0].ticker
+      fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/batch?types=chart&range=1d&token=${TOKEN}`)
+        .then(resp => resp.json())
+        .then(resp => {
+          let openingPrice = resp.chart[0].open
+          let updatedOpeningPrices = {...allOpeningPrices}
+          updatedOpeningPrices[ticker] = openingPrice
+          setAllOpeningPrices(updatedOpeningPrices)
+        })
+        .catch(error => alert(`The following error occured: ${error}`))
+    }
+
+  }, [uniqueTransactions.length])
 
   let total = uniqueTransactions.reduce( (acc, value) => {
     return acc + parseFloat(value.bought_price)
