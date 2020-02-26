@@ -1,23 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Layout from '../layout/Layout'
 
 import { connect } from 'react-redux'
-import { getAllTransactions } from '../actions/transactionActions'
 
-function Transactions({ currentUser, getAllTransactions, allTransactions }) {
-
-  useEffect( () => {
-    fetch(`http://localhost:3001/api/v1/transactions`, {
-      headers: {
-        email: currentUser.email
-      }
-    })
-      .then(resp => resp.json())
-      .then(resp => {
-        getAllTransactions(resp.transactions)
-      })
-      .catch(error => alert(`The following error occured: ${error}`))
-  }, [])
+function Transactions({ allTransactions }) {
 
   const listOfTransactions = allTransactions.map( (transaction, index) => {
     const { ticker, bought_price, shares } = transaction
@@ -53,15 +39,8 @@ function Transactions({ currentUser, getAllTransactions, allTransactions }) {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.usersReducer.currentUser,
     allTransactions: state.transactionsReducer.transactions
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getAllTransactions: transactions => dispatch(getAllTransactions(transactions))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Transactions)
+export default connect(mapStateToProps)(Transactions)
