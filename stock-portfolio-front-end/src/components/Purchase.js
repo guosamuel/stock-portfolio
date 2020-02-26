@@ -6,7 +6,7 @@ import { addTransaction } from '../actions/transactionActions'
 
 import { TOKEN, INPUT_TICKER, INPUT_SHARES } from '../constants/Constants'
 
-function Purchase({ currentUser, updateBalance }) {
+function Purchase({ currentUser, updateBalance, addTransaction }) {
   //***
   // This section is for keeping the state of UI messages when the user purchases
   // stocks.
@@ -38,12 +38,13 @@ function Purchase({ currentUser, updateBalance }) {
     })
     .then(resp => resp.json())
     .then(resp => {
+      clearUIMessages()
       if (resp.error) {
         setServerError(true)
       } else {
         setSuccessfulPurchase(true)
         addTransaction({
-          ticker: inputTicker,
+          ticker: inputTicker.toUpperCase(),
           shares: inputShares,
           bought_price: currentPrice
         })
@@ -125,7 +126,7 @@ function Purchase({ currentUser, updateBalance }) {
       { serverError ?
       <div className="row">
           <div className="ui yellow message">
-            An error occurred on the server side. Please try again.
+            An error occurred on the server side. Please try again or purchase another stock.
           </div>
       </div> : null}
       <div>
