@@ -9,7 +9,7 @@ function Performance({ allTransactions, getPortfolioTotal }) {
   const openingPrices = {}
   const uniqueTransactions = []
 
-  //***
+  //****************************************************************************
 
   /***
   This section below was used to find the unique tickers. The list of transactions
@@ -20,12 +20,12 @@ function Performance({ allTransactions, getPortfolioTotal }) {
 
   for (let i = allTransactions.length-1; i >= 0; i--) {
     if (!tickerTracker[allTransactions[i].ticker.toUpperCase()]) {
-      tickerTracker[allTransactions[i].ticker] = true
+      tickerTracker[allTransactions[i].ticker.toUpperCase()] = true
       uniqueTransactions.push(allTransactions[i])
     }
   }
 
-  //***
+  //****************************************************************************
 
   const uniqueTickers = uniqueTransactions.map( transaction => transaction.ticker )
   const symbols = uniqueTickers.join()
@@ -34,22 +34,29 @@ function Performance({ allTransactions, getPortfolioTotal }) {
   Unable to fetch with the URL in a batch if symbols does not exists.
   Included allOpeningPrices in the boolean condition because without that
   condition, the code will cause an infinite loop in fetching from the URL.
+  This effectively acts as a componentDidMount lifecycle method.
   ***/
   if (symbols && !allOpeningPrices) {
     fetch(`https://cloud.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=chart&range=1d&token=${TOKEN}`)
       .then(resp => resp.json())
       .then(resp => {
         for (let ticker in resp) {
-          openingPrices[ticker] = resp[ticker].chart[0].open
+          openingPrices[ticker.toUpperCase()] = resp[ticker.toUpperCase()].chart[0].open
         }
         setAllOpeningPrices(openingPrices)
       })
       .catch(error => alert(`The following error occured: ${error}`))
   }
 
+  /***
+  This useEffect is effectively a componentDidUpdate lifecycle method. The purpose
+  behind this is when the user continuously add stocks on the portfolio pages,
+  the page optimistically renders to reflect their most recent unique stock while
+  applying the appropriate color font to it.
+  ***/
   useEffect( () => {
     if (allOpeningPrices) {
-      let ticker = uniqueTransactions[0].ticker
+      let ticker = uniqueTransactions[0].ticker.toUpperCase()
       fetch(`https://cloud.iexapis.com/stable/stock/${ticker}/batch?types=chart&range=1d&token=${TOKEN}`)
         .then(resp => resp.json())
         .then(resp => {
@@ -63,8 +70,8 @@ function Performance({ allTransactions, getPortfolioTotal }) {
 
   }, [uniqueTransactions.length])
 
-  let total = uniqueTransactions.reduce( (acc, value) => {
-    return acc + parseFloat(value.bought_price)
+  let total = uniqueTransactions.reduce( (acc, stock) => {
+    return acc + (parseFloat(stock.bought_price) * stock.shares)
   }, 0)
 
   getPortfolioTotal(total)
@@ -73,7 +80,8 @@ function Performance({ allTransactions, getPortfolioTotal }) {
     const { ticker, bought_price, shares } = transaction
     /***
     Needed the ternary for openingPrice because the initial state is at null.
-    This updates after the fetch is complete to the appropriate values.
+    openingPrice updates after the initial fetch is completed to retrieve the
+    appropriate values.
     ***/
     const openingPrice = allOpeningPrices ? allOpeningPrices[ticker] : null
     const boughtPrice = parseFloat(bought_price)

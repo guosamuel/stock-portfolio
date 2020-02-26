@@ -3,10 +3,10 @@ The purpose of Constants.js is to have a single file
 that contains all of the strings that are used more than once.
 
 This includes the strings used within the same component and
-strings used for the Redux store.
+strings used for Redux.
 ***/
 
-//***** COMPONENTS *****//
+//********************************* COMPONENTS *********************************
 
 // Token for making fetch requests
 export const TOKEN = `pk_43864b7d191c4bf4a768d4b932e8e4d7`
@@ -20,7 +20,7 @@ export const NAME = "name"
 export const INPUT_TICKER = "input-ticker"
 export const INPUT_SHARES = "input-shares"
 
-//***** REDUX *****//
+//*********************************** REDUX ************************************
 
 // transactionActions.js, transactionsReducer.js
 export const GET_ALL_TRANSACTIONS = "GET_ALL_TRANSACTIONS"
