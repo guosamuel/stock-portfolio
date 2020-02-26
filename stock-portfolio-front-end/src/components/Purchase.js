@@ -4,17 +4,22 @@ import { connect } from 'react-redux'
 import { updateBalance } from '../actions/userActions'
 import { addTransaction } from '../actions/transactionActions'
 
+import { TOKEN, INPUT_TICKER, INPUT_SHARES } from '../constants/Constants'
+
 function Purchase({ currentUser, updateBalance }) {
+  //***
+  // This section is for keeping the state of UI messages when the user purchases
+  // stocks.
   const [ invalidTicker, setInvalidTicker ] = useState(false)
   const [ insufficientFunds, setInsufficientFunds] = useState(false)
   const [ successfulPurchase, setSuccessfulPurchase ] = useState(false)
   const [ serverError, setServerError ] = useState(false)
+  //***
   const [ inputTicker, setInputTicker ] = useState("")
   const [ inputShares, setInputShares ] = useState(1)
   const [ areSharesFormatted, setAreSharesFormatted ] = useState(true)
   const [ balance, setBalance ] = useState(parseFloat(currentUser.balance))
 
-  const TOKEN = `Tpk_b0d2d52327d14c40b708b93e14b27f40`
 
   const handleTransaction = (cost, currentPrice) => {
     fetch(`http://localhost:3001/api/v1/transactions`, {
@@ -57,28 +62,32 @@ function Purchase({ currentUser, updateBalance }) {
       .then(resp => {
         let currentPrice = resp.chart[resp.chart.length-1].average
         let cost = currentPrice * inputShares
+        clearUIMessages()
         if (balance >= cost) {
           let updatedBalance = balance - cost
-          setInvalidTicker(false)
-          setInsufficientFunds(false)
-          setServerError(false)
           setBalance(updatedBalance)
           updateBalance(updatedBalance)
           handleTransaction(cost, currentPrice)
         } else {
           setInsufficientFunds(true)
-          setSuccessfulPurchase(false)
-          setServerError(false)
         }
       })
+      .catch(error => alert(`The following error occurred: ${error}`))
+  }
+
+  const clearUIMessages = () => {
+    setInvalidTicker(false)
+    setInsufficientFunds(false)
+    setSuccessfulPurchase(false)
+    setServerError(false)
   }
 
   const handleChange = e => {
     switch (e.target.name) {
-      case "input-ticker":
+      case INPUT_TICKER:
         setInputTicker(e.target.value)
         break
-      case "input-shares":
+      case INPUT_SHARES:
         let shares = parseInt(e.target.value, 10)
         setInputShares(shares)
         !shares ? setAreSharesFormatted(false) : setAreSharesFormatted(true)
@@ -123,11 +132,11 @@ function Purchase({ currentUser, updateBalance }) {
         <form className="ui form" onSubmit={handleSubmit}>
           <div className="field">
             <label>Ticker</label>
-            <input type="text" name="input-ticker" placeholder="Ticker" onChange={handleChange} value={inputTicker}/>
+            <input type="text" name={INPUT_TICKER} placeholder="Ticker" onChange={handleChange} value={inputTicker}/>
           </div>
           <div className="field">
             <label>Shares</label>
-            <input type="number" min="1" step="1" name="input-shares" onChange={handleChange} value={inputShares}/>
+            <input type="number" min="1" step="1" name={INPUT_SHARES} onChange={handleChange} value={inputShares}/>
           </div>
           <br />
           <button className="ui button" type="Submit" disabled={areSharesFormatted ? false : true}>Buy Shares</button>

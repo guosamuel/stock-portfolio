@@ -17,7 +17,6 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   def index
-    # request.headers[:email]
     user = User.find_by(email: request.headers[:email])
     transactions = user.transactions
     render json: {transactions: transactions}

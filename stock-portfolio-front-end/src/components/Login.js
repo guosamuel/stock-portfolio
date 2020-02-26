@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../actions/userActions'
+import { EMAIL, PASSWORD } from '../constants/Constants'
 
 function Login({ login, history }) {
   const [ email, setEmail ] = useState("")
@@ -9,10 +10,10 @@ function Login({ login, history }) {
 
   const handleChange = e => {
     switch (e.target.name) {
-      case "email":
+      case EMAIL:
         setEmail(e.target.value)
         break
-      case "password":
+      case PASSWORD:
         setPassword(e.target.value)
         break
       default:
@@ -46,6 +47,7 @@ function Login({ login, history }) {
         history.push("/portfolio")
       }
     })
+    .catch(error => alert(`The following error occured: ${error}`))
   }
 
   const handleSignUpRedirect = () => {
@@ -65,11 +67,11 @@ function Login({ login, history }) {
             <form className="ui form" onSubmit={handleSubmit}>
               <div className="field">
                 <label>Email</label>
-                <input type="text" name="email" placeholder="Email" onChange={handleChange} value={email}/>
+                <input type="text" name={EMAIL} placeholder="Email" onChange={handleChange} value={email}/>
               </div>
               <div className="field">
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} value={password}/>
+                <input type={PASSWORD} name={PASSWORD} placeholder="Password" onChange={handleChange} value={password}/>
               </div>
               <br />
               <button className="ui button" type="Login">Log In</button>

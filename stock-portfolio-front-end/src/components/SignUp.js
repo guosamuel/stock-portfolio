@@ -1,21 +1,27 @@
 import React, { useState } from 'react'
 
+import { EMAIL, PASSWORD, NAME } from '../constants/Constants'
+
 function SignUp({ history }){
   const [ name, setName ] = useState("")
   const [ email, setEmail ] = useState("")
   const [ password, setPassword ] = useState("")
+
+  //***
+  // This section is for keeping the state of UI messages when the user signs up
   const [ successfulSignUp, setSuccessfulSignUp ] = useState(false)
   const [ failedSignUp, setFailedSignUp ] = useState(false)
+  //***
 
   const handleChange = e => {
     switch (e.target.name) {
-      case "email":
+      case EMAIL:
         setEmail(e.target.value)
         break
-      case "password":
+      case PASSWORD:
         setPassword(e.target.value)
         break
-      case "name":
+      case NAME:
         setName(e.target.value)
         break
       default:
@@ -38,18 +44,23 @@ function SignUp({ history }){
     })
     .then(resp => resp.json())
     .then(data => {
+      clearUIMessages()
       if (data.error) {
         setFailedSignUp(true)
-        setSuccessfulSignUp(false)
       }
       else {
-        setFailedSignUp(false)
         setSuccessfulSignUp(true)
         setName("")
         setPassword("")
         setEmail("")
       }
     })
+    .catch(error => alert(`The following error occurred: ${error}`))
+  }
+
+  const clearUIMessages = () => {
+    setSuccessfulSignUp(false)
+    setFailedSignUp(false)
   }
 
   const handleLoginRedirect = () => {
@@ -84,15 +95,15 @@ function SignUp({ history }){
         <form className="ui form" onSubmit={handleSubmit}>
           <div className="field">
             <label>Name</label>
-            <input type="text" name="name" placeholder="Name" onChange={handleChange} value={name}/>
+            <input type="text" name={NAME} placeholder="Name" onChange={handleChange} value={name}/>
           </div>
           <div className="field">
             <label>Email</label>
-            <input type="text" name="email" placeholder="Email" onChange={handleChange} value={email}/>
+            <input type="text" name={EMAIL} placeholder="Email" onChange={handleChange} value={email}/>
           </div>
           <div className="field">
             <label>Password</label>
-            <input type="password" name="password" placeholder="Password" onChange={handleChange} value={password}/>
+            <input type={PASSWORD} name={PASSWORD} placeholder="Password" onChange={handleChange} value={password}/>
           </div>
           <button className="ui button" type="Login">Submit Sign Up Form</button>
         </form>

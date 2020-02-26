@@ -14,6 +14,11 @@ import { css } from "@emotion/core";
 function App({ currentUser, login, history }) {
   const [ loading, setLoading ] = useState(true)
 
+  const override = css`
+  display: block;
+  margin: 25% auto;
+  `;
+
   useEffect(() => {
     const token = localStorage.getItem("token")
 
@@ -34,15 +39,11 @@ function App({ currentUser, login, history }) {
           history.push("/portfolio")
         }
       })
+      .catch(error => alert(`The following error occurred: ${error}`))
     }
 
     setLoading(false)
   }, [])
-
-  const override = css`
-  display: block;
-  margin: 25% auto;
-  `;
 
   return (
     <div>
