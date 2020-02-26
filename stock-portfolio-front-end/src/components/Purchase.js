@@ -54,7 +54,7 @@ function Purchase({ currentUser, updateBalance }) {
 
   const handleSubmit = e => {
     e.preventDefault()
-    fetch(`https://sandbox.iexapis.com/stable/stock/${inputTicker}/batch?types=chart&range=1d&token=${TOKEN}`)
+    fetch(`https://cloud.iexapis.com/stable/stock/${inputTicker}/batch?types=chart&range=1d&token=${TOKEN}`)
       .then(resp => {
         resp.status === 404 ? setInvalidTicker(true) : setInvalidTicker(false)
         return resp.json()

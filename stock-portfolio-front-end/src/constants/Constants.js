@@ -8,8 +8,8 @@ strings used for the Redux store.
 
 //***** COMPONENTS *****//
 
-// Test Token for making fetch requests
-export const TOKEN = `Tpk_b0d2d52327d14c40b708b93e14b27f40`
+// Token for making fetch requests
+export const TOKEN = `pk_43864b7d191c4bf4a768d4b932e8e4d7`
 
 // Login.js, SignUp.js
 export const EMAIL = "email"

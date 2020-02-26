@@ -8,7 +8,7 @@ function Performance({ allTransactions, getPortfolioTotal }) {
   const [ allOpeningPrices, setAllOpeningPrices ] = useState(null)
   const openingPrices = {}
   const uniqueTransactions = []
-  console.log(TOKEN)
+
   //***
   /***
   This section was used to find the unique tickers. The list of transactions
@@ -35,7 +35,7 @@ function Performance({ allTransactions, getPortfolioTotal }) {
   condition, the code will cause an infinite loop in fetching from the URL.
   ***/
   if (symbols && !allOpeningPrices) {
-    fetch(`https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=chart&range=1d&token=${TOKEN}`)
+    fetch(`https://cloud.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=chart&range=1d&token=${TOKEN}`)
       .then(resp => resp.json())
       .then(resp => {
         for (let ticker in resp) {
