@@ -27,6 +27,8 @@ function Transactions({ allTransactions }) {
     <Layout>
       <h1>Transactions</h1>
       <br />
+      <h3>Note: Transactions are displayed from least to most recent, top to bottom.</h3>
+      <br />
       <table>
         <tbody>
           {listOfTransactions}
