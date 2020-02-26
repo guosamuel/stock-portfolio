@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../layout/Layout'
 import Purchase from './Purchase'
 import Performance from './Performance'
@@ -6,7 +6,8 @@ import Performance from './Performance'
 import { connect } from 'react-redux'
 import { getAllTransactions } from '../actions/transactionActions'
 
-function Portfolio({ currentUser, getAllTransactions, allTransactions }) {
+function Portfolio({ currentUser, getAllTransactions }) {
+  const [ portfolioTotal, setPortfolioTotal ] = useState(0)
 
   useEffect( () => {
     fetch(`http://localhost:3001/api/v1/transactions`, {
@@ -21,12 +22,16 @@ function Portfolio({ currentUser, getAllTransactions, allTransactions }) {
       .catch(error => alert(`The following error occured: ${error}`))
   }, [])
 
+  const getPortfolioTotal = total => {
+    setPortfolioTotal(total.toFixed(2))
+  }
+
   return (
     <Layout>
-      <h1>Portfolio</h1>
+      <h1>Portfolio $({portfolioTotal})</h1>
       <div className= "ui grid">
         <div className="eight wide column" style={{paddingTop: "5%"}}>
-          <Performance />
+          <Performance getPortfolioTotal={getPortfolioTotal}/>
         </div>
         <div className="eight wide column" style={{paddingTop: "5%"}}>
           <Purchase />
@@ -39,7 +44,6 @@ function Portfolio({ currentUser, getAllTransactions, allTransactions }) {
 const mapStateToProps = state => {
   return {
     currentUser: state.usersReducer.currentUser,
-    allTransactions: state.transactionsReducer.transactions
   }
 }
 
