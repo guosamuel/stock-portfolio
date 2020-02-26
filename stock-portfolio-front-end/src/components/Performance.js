@@ -8,7 +8,7 @@ function Performance({ allTransactions, getPortfolioTotal }) {
   const [ allOpeningPrices, setAllOpeningPrices ] = useState(null)
   const openingPrices = {}
   const uniqueTransactions = []
-
+  console.log(TOKEN)
   //***
   /***
   This section was used to find the unique tickers. The list of transactions

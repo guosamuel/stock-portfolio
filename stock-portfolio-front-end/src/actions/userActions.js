@@ -1,19 +1,21 @@
+import { LOGIN, LOGOUT, UPDATE_BALANCE } from '../constants/Constants'
+
 export const login = user => {
   return {
-    type: "LOGIN",
+    type: LOGIN,
     payload: user
   }
 }
 
 export const logout = () => {
   return {
-    type: "LOGOUT"
+    type: LOGOUT
   }
 }
 
 export const updateBalance = updatedBalance => {
   return {
-    type: "UPDATE_BALANCE",
+    type: UPDATE_BALANCE,
     payload: updatedBalance
   }
 }
