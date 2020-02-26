@@ -26,7 +26,7 @@ function Performance({ allTransactions, getPortfolioTotal }) {
       .then(resp => resp.json())
       .then(resp => {
         for (let ticker in resp) {
-          openingPrices[ticker] = resp[ticker].chart[3].open
+          openingPrices[ticker] = resp[ticker].chart[0].open
         }
         setAllOpeningPrices(openingPrices)
       })
