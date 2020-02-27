@@ -4,7 +4,7 @@ Stock Portfolio
 Welcome to Stock Portfolio! This is the front-end portion of this application.
 
 ## Description
-Stock Portfolio is an application to purchase stocks with a limited amount of cash in your account. All stock purchases are based on the IEX Cloud API. As a user, you will be able to see your list of all your transactions for auditing purposes and if your stocks are doing well to date.
+Stock Portfolio is an application to purchase stocks with a limited amount of cash in your account. All stock purchases are based on the ![IEX Cloud API](https://iexcloud.io). As a user, you will be able to see your list of all your transactions for auditing purposes and if your stocks are doing well to date.
 
 ## Framework
 Built with [React](https://reactjs.org/)
@@ -45,13 +45,9 @@ Once you log in, the page should now look like the following picture below:
 The Portfolio page consists of two major parts of the application, how well your portfolio is doing and a purchase form to purchase new stocks.
 
 5. On the left hand side of the page, it will show all of the different stocks you've purchased and the font will be color coded.
-
 Red - the purchase price you bought it at is less than the opening day price
-
 Green - the purchase price you bought it at is greater than the opening day
-
 Grey - the purchase price you bought it at is the same as the opening day price.
-
 Black - either not enough information or there is potentially an issue with the server.
 
 6. On the right hand side of the page is the purchase form to purchase more stocks.
@@ -77,7 +73,3 @@ The number of share must be a whole number. If it is 0 or left blank, the purcha
 ![Transaction History](https://github.com/guosamuel/stock-portfolio/blob/master/stock-portfolio-front-end/src/ReadMePhotos/6.%20Transaction%20History.png)
 
 From the top to the bottom, it provides a list of all your transactions from least to most recent.
-
-## API
-
-All information in regards to stocks for this application has been suppled by ![IEX Cloud](https://iexcloud.io).

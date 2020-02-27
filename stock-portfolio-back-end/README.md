@@ -4,7 +4,7 @@ Stock Portfolio
 Welcome to Stock Portfolio! This is the back-end portion of this application.
 
 ## Description
-Stock Portfolio is an application to purchase stocks with a limited amount of cash in your account. All stock purchases are based on the IEX Cloud API. As a user, you will be able to see your list of all your transactions for auditing purposes and if your stocks are doing well to date.
+Stock Portfolio is an application to purchase stocks with a limited amount of cash in your account. All stock purchases are based on the ![IEX Cloud API](https://iexcloud.io). As a user, you will be able to see your list of all your transactions for auditing purposes and if your stocks are doing well to date.
 
 ## Framework
 Built with [Ruby on Rails](https://rubyonrails.org/)
