@@ -25,7 +25,7 @@ function Login({ login, history }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/v1/auth', {
+    fetch('https://stock-portfolio-back-end.herokuapp.com/api/v1/auth', {
       method: 'POST',
       headers:{
         "Content-Type": 'application/json',

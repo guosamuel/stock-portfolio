@@ -22,7 +22,7 @@ function Purchase({ currentUser, updateBalance, addTransaction }) {
 
 
   const handleTransaction = (cost, currentPrice) => {
-    fetch(`http://localhost:3001/api/v1/transactions`, {
+    fetch(`https://stock-portfolio-back-end.herokuapp.com/api/v1/transactions`, {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json',

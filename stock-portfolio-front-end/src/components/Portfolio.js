@@ -10,7 +10,7 @@ function Portfolio({ currentUser, getAllTransactions }) {
   const [ portfolioTotal, setPortfolioTotal ] = useState(0)
 
   useEffect( () => {
-    fetch(`http://localhost:3001/api/v1/transactions`, {
+    fetch(`https://stock-portfolio-back-end.herokuapp.com/api/v1/transactions`, {
       headers: {
         email: currentUser.email
       }

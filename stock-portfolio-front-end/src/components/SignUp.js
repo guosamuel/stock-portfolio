@@ -34,7 +34,7 @@ function SignUp({ history }){
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/v1/users', {
+    fetch('https://stock-portfolio-back-end.herokuapp.com/api/v1/users', {
       method: 'POST',
       headers:{
         "Content-Type": 'application/json',
