@@ -1,6 +1,6 @@
 [build]
-  base = "stock-portfolio/"
+  base = "/stock-portfolio"
 
-  publish = "stock-portfolio/stock-portfolio-front-end/"
+  publish = "/stock-portfolio-front-end"
 
   command = "npm run build"
