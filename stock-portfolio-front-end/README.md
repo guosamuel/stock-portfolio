@@ -45,9 +45,13 @@ Once you log in, the page should now look like the following picture below:
 The Portfolio page consists of two major parts of the application, how well your portfolio is doing and a purchase form to purchase new stocks.
 
 5. On the left hand side of the page, it will show all of the different stocks you've purchased and the font will be color coded.
+
 Red - the purchase price you bought it at is less than the opening day price
+
 Green - the purchase price you bought it at is greater than the opening day
+
 Grey - the purchase price you bought it at is the same as the opening day price.
+
 Black - either not enough information or there is potentially an issue with the server.
 
 6. On the right hand side of the page is the purchase form to purchase more stocks.
